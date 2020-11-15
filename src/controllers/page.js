@@ -1,6 +1,7 @@
 import Page from "../components/page";
 import TaskList from "../components/task-list";
 import TaskController from "./task";
+import FilterController from "./filter";
 import {render} from '../utils/render';
 import FormController from "./form";
 
@@ -10,6 +11,7 @@ export default class PageController {
     this._tasksModel = tasksModel;
 
     this._onDataChange = this._onDataChange.bind(this);
+    this._onFilterChange = this._onFilterChange.bind(this);
     this._onDelete = this._onDelete.bind(this);
     this._addNewTask = this._addNewTask.bind(this);
     
@@ -28,6 +30,11 @@ export default class PageController {
   
   _onDataChange(task) {
     this._tasksModel.changeStatus(task.id);
+    this._rerender();
+  }
+  
+  _onFilterChange(filter) {
+    this._tasksModel.setFilter(filter);
     this._rerender();
   }
   
@@ -56,17 +63,23 @@ export default class PageController {
     formController.render();
   }
   
+  _renderFilters() {
+    const filterController = new FilterController(this._pageComponent.getElement().querySelector(`.todo__current-header`), this._tasksModel, this._onFilterChange);
+    filterController.render();
+  }
+  
   _removeTasks() {
     this._showedTaskControllers.forEach((taskController) => taskController.destroy());
   }
   
   _rerender() {
     this._removeTasks();
-    this._renderTasks(this._tasksModel.getAll());
+    this._renderTasks(this._tasksModel.getFilteredTasks());
   }
   
   _renderPage() {
     this._renderForm();
-    this._renderTasks(this._tasksModel.getAll());
+    this._renderFilters();
+    this._renderTasks(this._tasksModel.getFilteredTasks());
   }
 }

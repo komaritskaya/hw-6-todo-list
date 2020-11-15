@@ -1,24 +1,37 @@
-import Form from "../components/form";
+import Filter from "../components/filter";
+import { FilterType } from "../utils/filter";
 import {render, RenderPosition} from '../utils/render';
+import {getTasksByFilter} from '../utils/filter';
 
-export default class FormController {
-  constructor(container, addNewTask) {
+export default class FilterController {
+  constructor(container, tasksModel, onFilterChange) {
     this._container = container;
-    this._formComponent = null;
-    
-    this._addNewTask = addNewTask;
+    this._tasksModel = tasksModel;
+    this._onFilterChange = onFilterChange;
+    this._activeFilterType = FilterType.ALL;
+    this._filterComponent = null;
   }
   
   render() {
-    this._formComponent = new Form();
-    render(this._container, this._formComponent, RenderPosition.AFTERBEGIN);
-    this._subscribeOnFormEvents();
-  }
-
-  _subscribeOnFormEvents() {
-    this._formComponent.setFormSubmitHandler((evt) => {
-      evt.preventDefault();
-      this._addNewTask(this._formComponent.getData());
+    const container = this._container;
+    const allTasks = this._tasksModel.getAll();
+    
+    const filters = Object.values(FilterType).map((filterType) => {
+      return {
+        name: filterType,
+        count: getTasksByFilter(allTasks, filterType).length,
+        checked: filterType === this._activeFilterType,
+      };
     });
+    const oldComponent = this._filterComponent;
+    
+    this._filterComponent = new Filter(filters);
+    this._filterComponent.setFilterChangeHandler(this._onFilterChange);
+    
+    if (oldComponent) {
+      replace(this._filterComponent, oldComponent);
+    } else {
+      render(container, this._filterComponent, RenderPosition.AFTER);
+    }
   }
 }
