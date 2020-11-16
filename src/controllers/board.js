@@ -1,11 +1,10 @@
-import Page from "../components/page";
-import TaskList from "../components/task-list";
+import Board from "../components/board";
 import TaskController from "./task";
 import FilterController from "./filter";
 import {render} from '../utils/render';
 import FormController from "./form";
 
-export default class PageController {
+export default class BoardController {
   constructor(container, tasksModel) {
     this._container = container;
     this._tasksModel = tasksModel;
@@ -15,17 +14,14 @@ export default class PageController {
     this._onDelete = this._onDelete.bind(this);
     this._addNewTask = this._addNewTask.bind(this);
     
-    this._pageComponent = new Page();
-    this._taskListComponent = new TaskList();
+    this._boardComponent = new Board();
 
     this._showedTaskControllers = [];
   }
   
   init() {
-    render(this._container, this._pageComponent);
-    render(this._pageComponent.getElement(), this._taskListComponent);
-
-    this._renderPage();
+    render(this._container, this._boardComponent);
+    this._renderBoard();
   }
   
   _onDataChange(task) {
@@ -44,7 +40,7 @@ export default class PageController {
   }
 
   _renderTask(task) {
-    const taskController = new TaskController(this._taskListComponent, this._onDataChange, this._onDelete);
+    const taskController = new TaskController(this._boardComponent, this._onDataChange, this._onDelete);
     this._showedTaskControllers.push(taskController);
     taskController.render(task);
   }
@@ -59,12 +55,12 @@ export default class PageController {
   }
   
   _renderForm() {
-    const formController = new FormController(this._pageComponent.getElement(), this._addNewTask);
+    const formController = new FormController(this._container, this._addNewTask);
     formController.render();
   }
   
   _renderFilters() {
-    const filterController = new FilterController(this._pageComponent.getElement().querySelector(`.todo__current-header`), this._tasksModel, this._onFilterChange);
+    const filterController = new FilterController(this._container.querySelector(`.todo__current-header`), this._tasksModel, this._onFilterChange);
     filterController.render();
   }
   
@@ -77,7 +73,7 @@ export default class PageController {
     this._renderTasks(this._tasksModel.getFilteredTasks());
   }
   
-  _renderPage() {
+  _renderBoard() {
     this._renderForm();
     this._renderFilters();
     this._renderTasks(this._tasksModel.getFilteredTasks());

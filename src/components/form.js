@@ -25,7 +25,6 @@ const createFormTemplate = () => {
 
 const parseFormData = (formData) => {
   const deadline = formData.get(`deadline`) ? moment(formData.get(`deadline`)) : null;
-  // console.log()
   return {
     id: nanoid(),
     description: he.encode(formData.get(`description`)),

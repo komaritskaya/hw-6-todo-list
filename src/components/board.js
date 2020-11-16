@@ -1,6 +1,6 @@
 import Abstract from './abstract';
 
-const createTaskListTemplate = () => {
+const createBoardTemplate = () => {
   return (
     `<div class="todo__current segment">
       <p class="todo__current-header ui medium header">Current Tasks</p>
@@ -10,8 +10,8 @@ const createTaskListTemplate = () => {
   );
 };
 
-export default class TaskList extends Abstract {
+export default class Board extends Abstract {
   getTemplate() {
-    return createTaskListTemplate();
+    return createBoardTemplate();
   }
 }
