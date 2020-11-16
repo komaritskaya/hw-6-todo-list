@@ -22,14 +22,9 @@ export default class TasksModel {
     return getTasksByFilter(this._tasks, this._activeFilterType);
   }
 
-  get(id) {
-    return this._tasks.find(task => task.id === id)
-  }
-
   delete(id) {
     this._tasks = this._tasks.filter(task => task.id !== id);
     this._callHandlers(this._dataChangeHandlers);
-
   }
 
   changeStatus(id) {
@@ -42,7 +37,6 @@ export default class TasksModel {
   setFilter(filterType) {
     this._activeFilterType = filterType;
     this._callHandlers(this._filterChangeHandlers);
-    console.log(this.getFilteredTasks());
   }
   
   setFilterChangeHandler(handler) {

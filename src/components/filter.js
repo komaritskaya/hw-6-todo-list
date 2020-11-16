@@ -6,15 +6,15 @@ const getFilterNameById = (id) => {
   return id.substring(FILTER_ID_PREFIX.length);
 };
 
-const createFilterMarkup = (filter, isActive) => {
-  const activeAttribute = isActive ? `active` : ``;
+const createFilterMarkup = (filter, isChecked) => {
+  const checkedAttribute = isChecked ? `checked` : ``;
   return (
     `<input
       type="radio"
       id="filter__${filter.name}"
-      class="filter__input visually-hidden"
+      class="filter__input"
       name="filter"
-      ${activeAttribute}
+      ${checkedAttribute}
     />
     <label for="filter__${filter.name}" class="filter__label">
       ${filter.name}</label
@@ -23,7 +23,7 @@ const createFilterMarkup = (filter, isActive) => {
 };
 
 const createFilterTemplate = (filters) => {
-  const filtersMarkup = filters.map((filter) => createFilterMarkup(filter, filter.isActive)).join(`\n`);
+  const filtersMarkup = filters.map((filter) => createFilterMarkup(filter, filter.isChecked)).join(`\n`);
   return (
     `<section class="main__filter filter container">
       ${filtersMarkup}

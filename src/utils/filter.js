@@ -2,19 +2,28 @@ import moment from 'moment';
 
 export const FilterType = {
   ALL: `all`,
+  TODAY: `today`,
+  WEEK: `week`,
   EXPIRED: `expired`,
   FINISHED: `finished`,
   PENDING: `pending`,
 };
 
 export const isExpired = (deadline, date) => {
-  return deadline < date && !isSameDay(date, deadline);
+  return deadline.isBefore(date) && !isSameDay(date, deadline);
 };
 
 export const isSameDay = (dateA, dateB) => {
-  const a = moment(dateA);
-  const b = moment(dateB);
-  return a.diff(b, `days`) === 0 && dateA.getDate() === dateB.getDate();
+  return dateA.isSame(dateB, `day`);
+};
+
+export const getTodaysTasks = (tasks, date) => {
+  return tasks.filter((task) => task.deadline && isSameDay(task.deadline, date));
+};
+
+export const getThisWeeksTasks = (tasks, date) => {
+  const endOfWeek = moment(date).endOf(`week`);
+  return tasks.filter((task) => task.deadline && task.deadline.isSameOrAfter(date, `day`) && task.deadline.isSameOrBefore(endOfWeek, `day`));
 };
 
 export const getFinishedTasks = (tasks) => {
@@ -46,11 +55,15 @@ export const getPendingTasks = (tasks, date) => {
 }
 
 export const getTasksByFilter = (tasks, filterType) => {
-  const currentDate = new Date();
-
+  const currentDate = moment();
+  
   switch (filterType) {
     case FilterType.ALL:
       return tasks;
+    case FilterType.TODAY:
+      return getTodaysTasks(tasks, currentDate);
+    case FilterType.WEEK:
+      return getThisWeeksTasks(tasks, currentDate);
     case FilterType.EXPIRED:
       return getExpiredTasks(tasks, currentDate);
     case FilterType.FINISHED:

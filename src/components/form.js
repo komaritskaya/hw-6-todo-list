@@ -17,7 +17,7 @@ const createFormTemplate = () => {
           <label>Deadline</label>
           <input name="deadline" type="date" min=${minDate} />
         </div>
-        </div>
+      </div>
       <input type="submit" value="Submit" class="ui submit button">
     </form>`
   );

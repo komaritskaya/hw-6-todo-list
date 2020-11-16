@@ -1,7 +1,6 @@
 import Filter from "../components/filter";
 import { FilterType } from "../utils/filter";
 import {render, RenderPosition} from '../utils/render';
-import {getTasksByFilter} from '../utils/filter';
 
 export default class FilterController {
   constructor(container, tasksModel, onFilterChange) {
@@ -14,13 +13,11 @@ export default class FilterController {
   
   render() {
     const container = this._container;
-    const allTasks = this._tasksModel.getAll();
     
     const filters = Object.values(FilterType).map((filterType) => {
       return {
         name: filterType,
-        count: getTasksByFilter(allTasks, filterType).length,
-        checked: filterType === this._activeFilterType,
+        isChecked: filterType === this._activeFilterType,
       };
     });
     const oldComponent = this._filterComponent;
