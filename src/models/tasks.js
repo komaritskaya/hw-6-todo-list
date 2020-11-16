@@ -32,6 +32,8 @@ export default class TasksModel {
     if (taskToChange) {
       taskToChange.isFinished = !taskToChange.isFinished;
     }
+    console.log(this._tasks);
+    this._callHandlers(this._dataChangeHandlers);
   }
   
   setFilter(filterType) {

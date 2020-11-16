@@ -19,6 +19,7 @@ export default class FormController {
     this._formComponent.setFormSubmitHandler((evt) => {
       evt.preventDefault();
       this._addNewTask(this._formComponent.getData());
+      this._formComponent.reset();
     });
   }
 }

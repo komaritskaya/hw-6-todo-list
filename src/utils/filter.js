@@ -34,7 +34,7 @@ export const getExpiredTasks = (tasks, date) => {
   return tasks.filter((task) => {
     const deadline = task.deadline;
 
-    if (!deadline) {
+    if (!deadline || task.isFinished) {
       return false;
     }
 
@@ -46,11 +46,11 @@ export const getPendingTasks = (tasks, date) => {
   return tasks.filter((task) => {
     const deadline = task.deadline;
     
-    if (!deadline) {
-      return true;
+    if (task.isFinished) {
+      return false;
     }
     
-    return !isExpired(deadline, date) && !task.isFinished;
+    return !deadline || !isExpired(deadline, date);
   });
 }
 

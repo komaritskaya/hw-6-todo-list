@@ -25,6 +25,7 @@ const createFormTemplate = () => {
 
 const parseFormData = (formData) => {
   const deadline = formData.get(`deadline`) ? moment(formData.get(`deadline`)) : null;
+  // console.log()
   return {
     id: nanoid(),
     description: he.encode(formData.get(`description`)),
@@ -44,6 +45,11 @@ export default class Form extends Abstract {
     return parseFormData(formData);
   }
   
+  reset() {
+    const form = this.getElement();
+    form.reset();
+  } 
+   
   setFormSubmitHandler(handler) {
     this.getElement()
       .addEventListener(`submit`, handler);

@@ -10,16 +10,8 @@ export default class TaskController {
   }
   
   render(task) {
-    const oldTaskComponent = this._taskComponent;
     this._taskComponent = new Task(task);
-
-    if (oldTaskComponent) {
-      replace(this._taskComponent, oldTaskComponent);
-      this._subscribeOnTaskEvents(task);
-    } else {
-      render(this._container.getElement(), this._taskComponent);
-    }
-
+    render(this._container.getElement(), this._taskComponent);
     this._subscribeOnTaskEvents(task);
   }
   

@@ -1,15 +1,20 @@
+import moment from 'moment';
 import Abstract from './abstract';
+import {isExpired} from '../utils/filter';
 
 const createTaskTemplate = (task) => {
-  const iconType = task.isFinished ? `check` : `exclamation`;
-  const buttonText = task.isFinished ? `Mark as undone` : `Mark as done`;
-  const deadlineMarkup = task.deadline ? `<p class="description">Till ${task.deadline.format(`MMM DD, YYYY`)}</p>` : ``;
+  const {deadline, description, isFinished} = task;
+  const currentDate = moment();
+  const expired = deadline && isExpired(deadline, currentDate);
+  const iconType = isFinished ? `check` : expired ? `poo` : `calendar alternate outline`;
+  const buttonText = isFinished ? `Mark as undone` : `Mark as done`;
+  const deadlineMarkup = deadline ? `<p class="description">Till ${deadline.format(`MMM DD, YYYY`)}</p>` : ``;
   return (
     `<div class="item ui segment">
       <div class="left floated content">
         <i class="small ${iconType} middle aligned icon"></i>
         <div class="right floated content">
-          <p class="header">${task.description}</p>
+          <p class="header">${description}</p>
           ${deadlineMarkup}
         </div>
       </div>

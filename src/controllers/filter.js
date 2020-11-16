@@ -20,15 +20,9 @@ export default class FilterController {
         isChecked: filterType === this._activeFilterType,
       };
     });
-    const oldComponent = this._filterComponent;
     
     this._filterComponent = new Filter(filters);
+    render(container, this._filterComponent, RenderPosition.AFTER);
     this._filterComponent.setFilterChangeHandler(this._onFilterChange);
-    
-    if (oldComponent) {
-      replace(this._filterComponent, oldComponent);
-    } else {
-      render(container, this._filterComponent, RenderPosition.AFTER);
-    }
   }
 }
