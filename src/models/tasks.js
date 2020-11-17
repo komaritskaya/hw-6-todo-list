@@ -5,9 +5,6 @@ export default class TasksModel {
   constructor() {
     this._tasks = tasks;
     this._activeFilterType = FilterType.ALL;
-    
-    this._dataChangeHandlers = [];
-    this._filterChangeHandlers = [];
   }
   
   add(task) {
@@ -24,7 +21,6 @@ export default class TasksModel {
 
   delete(id) {
     this._tasks = this._tasks.filter(task => task.id !== id);
-    this._callHandlers(this._dataChangeHandlers);
   }
 
   changeStatus(id) {
@@ -32,24 +28,9 @@ export default class TasksModel {
     if (taskToChange) {
       taskToChange.isFinished = !taskToChange.isFinished;
     }
-    console.log(this._tasks);
-    this._callHandlers(this._dataChangeHandlers);
   }
   
   setFilter(filterType) {
     this._activeFilterType = filterType;
-    this._callHandlers(this._filterChangeHandlers);
-  }
-  
-  setFilterChangeHandler(handler) {
-    this._filterChangeHandlers.push(handler);
-  }
-
-  setDataChangeHandler(handler) {
-    this._dataChangeHandlers.push(handler);
-  }
-
-  _callHandlers(handlers) {
-    handlers.forEach((handler) => handler());
   }
 }
