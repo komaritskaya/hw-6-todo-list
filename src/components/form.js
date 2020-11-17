@@ -6,8 +6,8 @@ import Abstract from './abstract';
 const createFormTemplate = () => {
   const minDate = moment().format(`YYYY-MM-DD`);
   return (
-    `<form class="todo__form ui segment form">
-      <p class="ui medium header">Add new Task</p>
+    `<form class="ui segment form">
+      <p class="ui medium header">Add New Task</p>
       <div class="two fields">
         <div class="field">
           <label>Description</label>

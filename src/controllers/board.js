@@ -60,7 +60,7 @@ export default class BoardController {
   }
   
   _renderFilters() {
-    const filterController = new FilterController(this._container.querySelector(`.todo__current-header`), this._tasksModel, this._onFilterChange);
+    const filterController = new FilterController(this._container.querySelector(`.board__header`), this._tasksModel, this._onFilterChange);
     filterController.render();
   }
   
