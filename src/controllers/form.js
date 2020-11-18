@@ -2,11 +2,11 @@ import Form from "../components/form";
 import {render, RenderPosition} from '../utils/render';
 
 export default class FormController {
-  constructor(container, addNewTask) {
+  constructor(container, onAddNewTask) {
     this._container = container;
     this._formComponent = null;
     
-    this._addNewTask = addNewTask;
+    this._onAddNewTask = onAddNewTask;
   }
 
   render() {
@@ -18,7 +18,7 @@ export default class FormController {
   _subscribeOnFormEvents() {
     this._formComponent.setFormSubmitHandler((evt) => {
       evt.preventDefault();
-      this._addNewTask(this._formComponent.getData());
+      this._onAddNewTask(this._formComponent.getData());
       this._formComponent.reset();
     });
   }

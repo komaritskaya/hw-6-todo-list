@@ -2,9 +2,9 @@ import Task from "../components/task";
 import {render, remove} from '../utils/render';
 
 export default class TaskController {
-  constructor(container, onDataChange, onDelete) {
+  constructor(container, onStatusChange, onDelete) {
     this._container = container;
-    this._onDataChange = onDataChange;
+    this._onStatusChange = onStatusChange;
     this._onDelete = onDelete;
     this._taskComponent = null;
   }
@@ -20,7 +20,7 @@ export default class TaskController {
   }
 
   _markAsDone(task) {
-    this._onDataChange(task);
+    this._onStatusChange(task);
   }
   
   _delete(task) {
